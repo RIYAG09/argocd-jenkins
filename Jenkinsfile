@@ -35,6 +35,7 @@ pipeline {
 
         stage('Update Kubernetes Manifest') {
             steps {
+                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                 sh '''
                     sed -i "s|image:.*|image: $IMAGE|g" $DEPLOYMENT_FILE
                     git config --global user.name "RIYAG09"
@@ -43,6 +44,7 @@ pipeline {
                     git commit -m "Update image to $IMAGE"
                     git push origin main
                 '''
+                }
             }
         }
     }
