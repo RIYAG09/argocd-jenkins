@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: demo
-        image: 
+        image: riya299/jenkins-argocd-demo:latest
         ports:
         - containerPort: 5000
 ---
