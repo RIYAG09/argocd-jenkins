@@ -35,15 +35,15 @@ pipeline {
 
         stage('Update Kubernetes Manifest') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                sh '''
-                    sed -i "s|image:.*|image: $IMAGE|g" $DEPLOYMENT_FILE
-                    git config --global user.name "RIYAG09"
-                    git config --global user.email "riya.csit09@gmail.com"
-                    git add $DEPLOYMENT_FILE
-                    git commit -m "Update image to $IMAGE"
-                    git push origin main
-                '''
+               withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    sh """
+                      git config --global user.name RIYAG09
+                      git config --global user.email riya.csit09@gmail.com
+                      git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/RIYAG09/argocd-jenkins.git
+                      git add deployment.yaml
+                      git commit -m "Update image to ${env.IMAGE_TAG}"
+                      git push origin main
+                    """
                 }
             }
         }
